@@ -50,7 +50,7 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
                 .andExpect(status().is(403)); // logged out users can't get all
     }
 
-    @WithMockUser(roles = { "USER" })
+    @WithMockUser()
     @Test
     public void logged_in_users_can_get_all() throws Exception {
         mockMvc.perform(get("/api/ucsbdiningcommonsmenuitem/all"))
@@ -76,43 +76,43 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
     @Test
     @Disabled
     public void logged_out_users_cannot_put() throws Exception {
-        mockMvc.perform(post("/api/ucsbdiningcommonsmenuitem"))
+        mockMvc.perform(put("/api/ucsbdiningcommonsmenuitem"))
                 .andExpect(status().is(403));
     }
 
     @Test
     @Disabled
     public void logged_out_users_cannot_delete() throws Exception {
-        mockMvc.perform(post("/api/ucsbdiningcommonsmenuitem"))
+        mockMvc.perform(delete("/api/ucsbdiningcommonsmenuitem"))
                 .andExpect(status().is(403));
     }
 
-    @WithMockUser(roles = { "USER" })
+    @WithMockUser()
     @Test
     public void logged_in_regular_users_cannot_post() throws Exception {
         mockMvc.perform(post("/api/ucsbdiningcommonsmenuitem/post"))
                 .andExpect(status().is(403)); // only admins can post
     }
 
-    @WithMockUser(roles = { "USER" })
+    @WithMockUser()
     @Test
     @Disabled
     public void logged_in_regular_users_cannot_put() throws Exception {
-        mockMvc.perform(post("/api/ucsbdiningcommonsmenuitem"))
+        mockMvc.perform(put("/api/ucsbdiningcommonsmenuitem"))
                 .andExpect(status().is(403)); // only admins can post
     }
 
-    @WithMockUser(roles = { "USER" })
+    @WithMockUser()
     @Test
     @Disabled
     public void logged_in_regular_users_cannot_delete() throws Exception {
-        mockMvc.perform(post("/api/ucsbdiningcommonsmenuitem"))
+        mockMvc.perform(delete("/api/ucsbdiningcommonsmenuitem"))
                 .andExpect(status().is(403)); // only admins can post
     }
 
     // Tests with mocks for database actions
 
-    @WithMockUser(roles = { "USER" })
+    @WithMockUser()
     @Test
     @Disabled
     public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
@@ -139,7 +139,7 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
         assertEquals(expectedJson, responseString);
     }
 
-    @WithMockUser(roles = { "USER" })
+    @WithMockUser()
     @Test
     @Disabled
     public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
@@ -160,7 +160,7 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
         assertEquals("UCSBDiningCommonsMenuItem with id 1 not found", json.get("message"));
     }
 
-    @WithMockUser(roles = { "USER" })
+    @WithMockUser()
     @Test
     public void logged_in_user_can_get_all_ucsbdiningcommonsmenuitems() throws Exception {
 
@@ -178,8 +178,7 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
                 .station("Entree Specials")
                 .build();
 
-        ArrayList<UCSBDiningCommonsMenuItem> expectedCommonsMenuItems = new ArrayList<>();
-        expectedCommonsMenuItems.addAll(Arrays.asList(commonsMenuItem1, commonsMenuItem2));
+        ArrayList<UCSBDiningCommonsMenuItem> expectedCommonsMenuItems = new ArrayList<>(Arrays.asList(commonsMenuItem1, commonsMenuItem2));
 
         when(ucsbDiningCommonsMenuItemRepository.findAll()).thenReturn(expectedCommonsMenuItems);
 
