@@ -74,7 +74,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
     }
 
     @Test
-    @Disabled
     public void logged_out_users_cannot_put() throws Exception {
         mockMvc.perform(put("/api/ucsbdiningcommonsmenuitem"))
                 .andExpect(status().is(403));
@@ -96,7 +95,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
     @WithMockUser()
     @Test
-    @Disabled
     public void logged_in_regular_users_cannot_put() throws Exception {
         mockMvc.perform(put("/api/ucsbdiningcommonsmenuitem"))
                 .andExpect(status().is(403)); // only admins can post
@@ -271,7 +269,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
-    @Disabled
     public void admin_can_edit_an_existing_commonsmenuitem() throws Exception {
         // arrange
 
@@ -309,7 +306,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
-    @Disabled
     public void admin_cannot_edit_commonsmenuitem_that_does_not_exist() throws Exception {
         // arrange
 
