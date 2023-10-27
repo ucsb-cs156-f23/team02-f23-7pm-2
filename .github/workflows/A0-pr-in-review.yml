@@ -5,7 +5,7 @@ env:
 on:
   pull_request:
     types:
-      - ready_for_review
+      - assigned
 
 jobs:
   track_pr:
