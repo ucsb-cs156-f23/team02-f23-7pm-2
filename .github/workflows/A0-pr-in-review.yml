@@ -15,7 +15,7 @@ jobs:
       - name: Get project data
         env:
           ORGANIZATION: ucsb-cs156-f23
-          PROJECT_NUMBER: 1
+          PROJECT_NUMBER: 23
         run: |
           gh api graphql -f query='
           query($org: String!, $number: Int!) {
