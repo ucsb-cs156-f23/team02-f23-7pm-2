@@ -57,36 +57,36 @@ jobs:
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: |
-          item_id=$(
+          number=$(
             gh api graphql -f query='
-              query($number: Int!) {
-                repository(name: "team02-f23-7pm-2", owner: "ucsb-cs156-f23") {
-                  issue(number: $number) {
-                    projectItems(first: 1) {
-                      nodes {
-                        id
-                      }
+            query($url: URI!) {
+              resource(url: $url) {
+                ... on PullRequest {
+                  body
+                }
+              }
+            }' -f url=$PR_URL --jq '.data.resource.body' | grep -Poi '(?<=closes #)\d+'
+          ) && item_id=$(
+            gh api graphql -f query='
+            query($number: Int!) {
+              repository(name: "team02-f23-7pm-2", owner: "ucsb-cs156-f23") {
+                issue(number: $number) {
+                  projectItems(first: 1) {
+                    nodes {
+                      id
                     }
                   }
                 }
-              }' -F number=$(
-                gh api graphql -f query='
-                query($url: URI!) {
-                resource(url: $url) {
-                  ... on PullRequest {
-                    body
-                  }
-                }
-              }' -f url=$PR_URL --jq '.data.resource.body' | grep -Poi '(?<=closes #)\d+'
-            ) --jq '.data.repository.issue.projectItems.nodes[0].id'
-          )
+              }
+            }' -F number=$number --jq '.data.repository.issue.projectItems.nodes[0].id'
+          ) || true
 
           # Stores the ID of the created item as an environment variable.
           echo 'ITEM_ID='$item_id >> $GITHUB_ENV
 
       - name: Set fields
         run: |
-          gh api graphql -f query='
+          test -z $ITEM_ID || gh api graphql -f query='
           mutation (
             $project: ID!
             $item: ID!
