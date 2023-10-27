@@ -1,4 +1,4 @@
-name: Add PR to project
+name: A0 - PR in Review
 on:
   pull_request:
     types:
