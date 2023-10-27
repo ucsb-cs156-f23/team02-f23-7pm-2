@@ -1,6 +1,6 @@
 name: A0 - PR in Review
 env:
-  GITHUB_TOKEN: ${{ github.token }}
+  GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
 on:
   pull_request:
