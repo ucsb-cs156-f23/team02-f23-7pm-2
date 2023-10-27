@@ -1,15 +1,18 @@
 name: A0 - PR in Review
+env:
+  GITHUB_TOKEN: ${{ github.token }}
+
 on:
   pull_request:
     types:
       - ready_for_review
+
 jobs:
   track_pr:
     runs-on: ubuntu-latest
     steps:
       - name: Get project data
         env:
-          GITHUB_TOKEN: ${{ github.token }}
           ORGANIZATION: ucsb-cs156-f23
           PROJECT_NUMBER: 1
         run: |
@@ -51,7 +54,6 @@ jobs:
 
       - name: Add PR to project
         env:
-          GITHUB_TOKEN: ${{ github.token }}
           PR_ID: ${{ github.event.pull_request.node_id }}
         run: |
                item_id="$( gh api graphql -f query='
