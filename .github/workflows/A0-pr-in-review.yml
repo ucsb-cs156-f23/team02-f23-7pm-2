@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo ::set-env name=TITLE::${GITHUB_REPOSITORY#*/}
+      - run: echo TITLE::${GITHUB_REPOSITORY#*/} >> $GITHUB_ENV
       - name: Get project data
         env:
           ORGANIZATION: ${{ github.repository_owner }}
@@ -55,10 +55,10 @@ jobs:
           # - To get the ID of an option called `Octoteam` for the `Team` single select field, add `echo 'OCTOTEAM_OPTION_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Team") |.options[] | select(.name=="Octoteam") |.id' project_data.json) >> $GITHUB_ENV`.
           # 
           # **Note:** This workflow assumes that you have a project with a single select field called "Status" that includes an option called "In Review" and a date field called "Date posted". You must modify this section to match the fields that are present in your table.
-          echo ::set-env name=PROJECT_ID=$(jq '.data.organization.projectsV2.nodes[0].id' project_data.json)
-          echo ::set-env name=DATE_FIELD_ID=$(jq '.data.organization.projectsV2.nodes[0].fields.nodes[] | select(.name== "Date posted") | .id' project_data.json)
-          echo ::set-env name=STATUS_FIELD_ID=$(jq '.data.organization.projectsV2.nodes[0].fields.nodes[] | select(.name== "Status") | .id' project_data.json)
-          echo ::set-env name=IN_REVIEW_OPTION_ID=$(jq '.data.organization.projectsV2.nodes[0].fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="In Review") |.id' project_data.json)
+          echo PROJECT_ID=$(jq '.data.organization.projectsV2.nodes[0].id' project_data.json) >> $GITHUB_ENV
+          echo DATE_FIELD_ID=$(jq '.data.organization.projectsV2.nodes[0].fields.nodes[] | select(.name== "Date posted") | .id' project_data.json) >> $GITHUB_ENV
+          echo STATUS_FIELD_ID=$(jq '.data.organization.projectsV2.nodes[0].fields.nodes[] | select(.name== "Status") | .id' project_data.json) >> $GITHUB_ENV
+          echo IN_REVIEW_OPTION_ID=$(jq '.data.organization.projectsV2.nodes[0].fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="In Review") |.id' project_data.json) >> $GITHUB_ENV
 
       - name: Add PR to project
         env:
@@ -91,7 +91,7 @@ jobs:
           ) || true
 
           # Stores the ID of the created item as an environment variable.
-          echo ::set-env name=ITEM_ID=$item_id
+          echo ITEM_ID=$item_id >> $GITHUB_ENV
 
       - name: Set fields
         run: |
