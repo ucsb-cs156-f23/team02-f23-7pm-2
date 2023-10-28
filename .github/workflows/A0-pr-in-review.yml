@@ -77,7 +77,7 @@ jobs:
             }' -f url=$PR_URL --jq '.data.resource.body' | grep -Poi '(?<=closes #)\d+'
           ) && item_id=$(
             gh api graphql -f query='
-            query($number: Int!, $name: String!, $owner: RepositoryOwner!) {
+            query($number: Int!, $name: String!, $owner: String!) {
               repository(name: $name, owner: $owner) {
                 issue(number: $number) {
                   projectItems(first: 1) {
