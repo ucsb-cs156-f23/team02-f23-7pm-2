@@ -2,6 +2,9 @@ name: A0 - PR in Review
 
 # Based on https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/automating-projects-using-actions
 
+# For this script to work, you will need a project (kanban board) with the same name and organization as the repository
+# and a repository secret named TOKEN containing a GitHub token with these permissions: project, public_repo, repo:status
+
 env:
   GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
@@ -16,6 +19,7 @@ jobs:
 
     steps:
       - run: echo TITLE=${GITHUB_REPOSITORY#*/} >> $GITHUB_ENV
+
       - name: Get project data
         env:
           ORGANIZATION: ${{ github.repository_owner }}
