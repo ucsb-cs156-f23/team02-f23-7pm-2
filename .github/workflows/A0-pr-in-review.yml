@@ -8,7 +8,6 @@ env:
 on:
   pull_request:
     types:
-      - assigned
       - review_requested
 
 jobs:
