@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo TITLE::${GITHUB_REPOSITORY#*/} >> $GITHUB_ENV
+      - run: echo TITLE=${GITHUB_REPOSITORY#*/} >> $GITHUB_ENV
       - name: Get project data
         env:
           ORGANIZATION: ${{ github.repository_owner }}
