@@ -185,4 +185,76 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("UCSBOrganization with id munger-hall not found", json.get("message"));
         }
+
+        // Tests for PUT /api/ucsborganization?...
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_can_edit_an_existing_commons() throws Exception {
+                // arrange
+                UCSBOrganization muDeltaOrig = UCSBOrganization.builder()
+                                .orgCode("MD")
+                                .orgTranslationShort("Mu_Delta")
+                                .orgTranslation("Mu_Delta")
+                                .inactive(true)
+                                .build();
+
+                UCSBOrganization muDeltaEdit = UCSBOrganization.builder()
+                                .orgCode("md")
+                                .orgTranslationShort("Magnum_Dong")
+                                .orgTranslation("Magnum_Dong")
+                                .inactive(false)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(muDeltaEdit);
+
+                when(ucsbOrganizationRepository.findById(eq("MD"))).thenReturn(Optional.of(muDeltaOrig));
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/ucsborganization?orgCode=MD")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(ucsbOrganizationRepository, times(1)).findById("MD");
+                verify(ucsbOrganizationRepository, times(1)).save(muDeltaEdit); // should be saved with updated info
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(requestBody, responseString);
+        }
+
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_cannot_edit_commons_that_does_not_exist() throws Exception {
+                // arrange
+                UCSBOrganization muDeltaEdit = UCSBOrganization.builder()
+                                .orgCode("MD")
+                                .orgTranslationShort("Magnum_Dong")
+                                .orgTranslation("Magnum_Dong")
+                                .inactive(false)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(muDeltaEdit);
+
+                when(ucsbOrganizationRepository.findById(eq("MD"))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/ucsborganization?orgCode=MD")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+                verify(ucsbOrganizationRepository, times(1)).findById("MD");
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("UCSBOrganization with id MD not found", json.get("message"));
+
+        }
 }
