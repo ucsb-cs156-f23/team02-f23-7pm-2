@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/articles")
 @RestController
 @Slf4j
-public class ArticlesController {
+public class ArticlesController extends ApiController{
     @Autowired
     ArticlesRepository articlesRepository;
 
@@ -71,5 +71,16 @@ public class ArticlesController {
         Articles savedArticle = articlesRepository.save(article);
 
         return savedArticle;
+    }
+
+    @Operation(summary= "Get a article")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public Articles getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        Articles article = articlesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Articles.class, id));
+
+        return article;
     }
 }
