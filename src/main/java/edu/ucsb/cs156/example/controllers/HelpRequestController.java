@@ -1,7 +1,6 @@
 package edu.ucsb.cs156.example.controllers;
 
 import edu.ucsb.cs156.example.entities.HelpRequest;
-import edu.ucsb.cs156.example.entities.UCSBDate;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.HelpRequestRepository;
 
@@ -32,7 +31,7 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/helprequests")
 @RestController
 @Slf4j
-public class HelpRequestController {
+public class HelpRequestController extends ApiController{
     @Autowired
     HelpRequestRepository helpRequestRepository;
     @Operation(summary= "Get all records in the table and return as a JSON array")
@@ -71,5 +70,16 @@ public class HelpRequestController {
         HelpRequest savedHelpRequest = helpRequestRepository.save(helpRequest);
 
         return savedHelpRequest;
+    }
+
+    @Operation(summary= "Get a single help request")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public HelpRequest getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        HelpRequest helpRequest = helpRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(HelpRequest.class, id));
+
+        return helpRequest;
     }
 }
