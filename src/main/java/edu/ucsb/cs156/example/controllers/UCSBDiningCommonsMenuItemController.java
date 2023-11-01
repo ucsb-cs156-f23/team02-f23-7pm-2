@@ -60,4 +60,19 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
                 .station(station)
                 .build());
     }
+
+    @Operation(summary= "Update a single commons menu item")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public UCSBDiningCommonsMenuItem updateCommonsMenuItem(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid UCSBDiningCommonsMenuItem incoming) {
+        UCSBDiningCommonsMenuItem commonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+        commonsMenuItem.setDiningCommonsCode(incoming.getDiningCommonsCode());
+        commonsMenuItem.setName(incoming.getName());
+        commonsMenuItem.setStation(incoming.getStation());
+        ucsbDiningCommonsMenuItemRepository.save(commonsMenuItem);
+        return commonsMenuItem;
+    }
 }
