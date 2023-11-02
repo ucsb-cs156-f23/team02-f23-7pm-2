@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
 @RequestMapping(&quot;/api/articles&quot;)
 @RestController
 <span class="fc" id="L34">@Slf4j</span>
-<span class="fc" id="L35">public class ArticlesController {</span>
+<span class="fc" id="L35">public class ArticlesController extends ApiController{</span>
     @Autowired
     ArticlesRepository articlesRepository;
 
@@ -71,6 +71,51 @@ import java.time.LocalDateTime;
 <span class="fc" id="L71">        Articles savedArticle = articlesRepository.save(article);</span>
 
 <span class="fc" id="L73">        return savedArticle;</span>
+    }
+
+    @Operation(summary= &quot;Get a article&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public Articles getById(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L81">        Articles article = articlesRepository.findById(id)</span>
+<span class="fc" id="L82">                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));</span>
+
+<span class="fc" id="L84">        return article;</span>
+    }
+
+    @Operation(summary= &quot;Delete an Article&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @DeleteMapping(&quot;&quot;)
+    public Object deleteArticles(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L92">        Articles article = articlesRepository.findById(id)</span>
+<span class="fc" id="L93">                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));</span>
+
+<span class="fc" id="L95">        articlesRepository.delete(article);</span>
+<span class="fc" id="L96">        return genericMessage(&quot;Article with id %s deleted&quot;.formatted(id));</span>
+    }
+    
+
+    @Operation(summary= &quot;Update a single article&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public Articles updateArticle(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid Articles incoming) {
+
+<span class="fc" id="L107">        Articles article = articlesRepository.findById(id)</span>
+<span class="fc" id="L108">                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));</span>
+
+<span class="fc" id="L110">        article.setTitle(incoming.getTitle());</span>
+<span class="fc" id="L111">        article.setUrl(incoming.getUrl());</span>
+<span class="fc" id="L112">        article.setExplanation(incoming.getExplanation());</span>
+<span class="fc" id="L113">        article.setEmail(incoming.getEmail());</span>
+<span class="fc" id="L114">        article.setDateAdded(incoming.getDateAdded());</span>
+        
+<span class="fc" id="L116">        articlesRepository.save(article);</span>
+
+<span class="fc" id="L118">        return article;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
