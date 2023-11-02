@@ -13,10 +13,6 @@ Instructions: <https://ucsb-cs156.github.io/f23/lab/team02.html>
 | `Articles`                  | Andy         | MuMuKow          |
 ```
 
-TODO: change heading above to your repo name, e.g. `# team02-f23-6pm-4`
-
-TODO: Add a link to the deployed Dokku app for your team here, e.g.
-
 Deployments:
 
 * Prod: <https://team02.dokku-10.cs.ucsb.edu>
