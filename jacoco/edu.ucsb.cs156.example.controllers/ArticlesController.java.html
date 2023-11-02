@@ -87,7 +87,7 @@ import java.time.LocalDateTime;
     @Operation(summary= &quot;Delete an Article&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @DeleteMapping(&quot;&quot;)
-    public Object deleteArticles(
+    public Object deleteArticle(
             @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
 <span class="fc" id="L92">        Articles article = articlesRepository.findById(id)</span>
 <span class="fc" id="L93">                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));</span>
@@ -95,7 +95,7 @@ import java.time.LocalDateTime;
 <span class="fc" id="L95">        articlesRepository.delete(article);</span>
 <span class="fc" id="L96">        return genericMessage(&quot;Article with id %s deleted&quot;.formatted(id));</span>
     }
-    
+
 
     @Operation(summary= &quot;Update a single article&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
@@ -112,7 +112,7 @@ import java.time.LocalDateTime;
 <span class="fc" id="L112">        article.setExplanation(incoming.getExplanation());</span>
 <span class="fc" id="L113">        article.setEmail(incoming.getEmail());</span>
 <span class="fc" id="L114">        article.setDateAdded(incoming.getDateAdded());</span>
-        
+
 <span class="fc" id="L116">        articlesRepository.save(article);</span>
 
 <span class="fc" id="L118">        return article;</span>
