@@ -58,7 +58,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
     }
 
     @Test
-    @Disabled
     public void logged_out_users_cannot_get_by_id() throws Exception {
         mockMvc.perform(get("/api/ucsbdiningcommonsmenuitem?id=1"))
                 .andExpect(status().is(403)); // logged out users can't get by id
@@ -74,7 +73,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
     }
 
     @Test
-    @Disabled
     public void logged_out_users_cannot_put() throws Exception {
         mockMvc.perform(put("/api/ucsbdiningcommonsmenuitem"))
                 .andExpect(status().is(403));
@@ -95,7 +93,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
     @WithMockUser()
     @Test
-    @Disabled
     public void logged_in_regular_users_cannot_put() throws Exception {
         mockMvc.perform(put("/api/ucsbdiningcommonsmenuitem"))
                 .andExpect(status().is(403)); // only admins can post
@@ -112,7 +109,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
     @WithMockUser()
     @Test
-    @Disabled
     public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
 
         // arrange
@@ -139,7 +135,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
     @WithMockUser()
     @Test
-    @Disabled
     public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
 
         // arrange
@@ -267,7 +262,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
-    @Disabled
     public void admin_can_edit_an_existing_commonsmenuitem() throws Exception {
         // arrange
 
@@ -305,7 +299,6 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
-    @Disabled
     public void admin_cannot_edit_commonsmenuitem_that_does_not_exist() throws Exception {
         // arrange
 
