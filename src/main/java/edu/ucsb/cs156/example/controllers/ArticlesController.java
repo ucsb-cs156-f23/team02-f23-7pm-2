@@ -87,7 +87,7 @@ public class ArticlesController extends ApiController{
     @Operation(summary= "Delete an Article")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("")
-    public Object deleteArticles(
+    public Object deleteArticle(
             @Parameter(name="id") @RequestParam Long id) {
         Articles article = articlesRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Articles.class, id));
@@ -95,7 +95,7 @@ public class ArticlesController extends ApiController{
         articlesRepository.delete(article);
         return genericMessage("Article with id %s deleted".formatted(id));
     }
-    
+
 
     @Operation(summary= "Update a single article")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -112,7 +112,7 @@ public class ArticlesController extends ApiController{
         article.setExplanation(incoming.getExplanation());
         article.setEmail(incoming.getEmail());
         article.setDateAdded(incoming.getDateAdded());
-        
+
         articlesRepository.save(article);
 
         return article;
