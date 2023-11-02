@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f23/team02-f23-7pm-2
 owner: ucsb-cs156-f23
 repo_name: team02-f23-7pm-2
-pull_requests: [{"author":{"id":"MDQ6VXNlcjM3Njg1Nzg3","is_bot":false,"login":"tigeryu8900","name":""},"headRefName":"Tiger-UCSBDiningCommonsMenuItemController-DELETE","number":77,"title":"Add DELETE endpoint for a specific record in RecommendationRequest table.","url":"https://github.com/ucsb-cs156-f23/team02-f23-7pm-2/pull/77"},{"author":{"id":"MDQ6VXNlcjM3Njg1Nzg3","is_bot":false,"login":"tigeryu8900","name":""},"headRefName":"Tiger-README-links","number":74,"title":"Adjust title and links in README.md","url":"https://github.com/ucsb-cs156-f23/team02-f23-7pm-2/pull/74"}]
+pull_requests: [{"author":{"id":"MDQ6VXNlcjM3Njg1Nzg3","is_bot":false,"login":"tigeryu8900","name":""},"headRefName":"Tiger-UCSBDiningCommonsMenuItemController-DELETE","number":77,"title":"Add DELETE endpoint for a specific record in RecommendationRequest table.","url":"https://github.com/ucsb-cs156-f23/team02-f23-7pm-2/pull/77"}]
